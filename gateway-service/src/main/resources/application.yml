@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: gateway-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true    # this is useful without routing
+      routes:
+        - id: CURRENCY-CONVERSION-SERVICE
+          uri: lb://CURRENCY-CONVERSION-SERVICE
+          predicates:
+            - Path=/currency-conversion/**   # Capital P i.e Path=
+        - id: CURRENCY-EXCHANGE-SERVICE
+          uri: lb://CURRENCY-EXCHANGE-SERVICE
+          predicates:
+            - Path=/currency-exchange/**
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+server:
+  port: 8765

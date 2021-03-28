@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///D:/code/Java/microservice-v2/service-config-repo
+          search-paths:
+            - app-*
+
+server:
+  port: 8888

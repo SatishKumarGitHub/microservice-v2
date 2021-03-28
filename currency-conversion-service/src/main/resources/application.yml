@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: currency-conversion-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8100
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+  #instance:
+  #  prefer-ip-address: true
+   # hostname: localhost
+
+# Retry property
+resilience4j:
+  retry:
+    instances:
+      hello-api:
+        maxAttempts: 5  # maximum no of retry
+        waitDuration: 1s    # retry after 1 second
+        enableExponentialBackoff: true  # gradually increase the wait time
+
+    #circuti breaker property
+  circuitbreaker:
+    instances:
+      hello-api-circuit:
+        failureRateThreshold: 90 # if failure rate reaches 90 % then circuit breaker will go into open state
+
+    #rate limit  property
+  ratelimiter:
+    instances:
+      hello-api-rate-limit:
+        limitRefreshPeriod: 2 #only 2 request will be allowed
+        limitForPeriod: 10  #every 10 seconds
+
+  bulkhead:
+    instances:
+      hello-api-bulk-Head:
+        maxConcurrentCalls: 10  # maximum 10 concurrent calls will be allowed
+
+

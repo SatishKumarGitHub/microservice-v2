@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: currency-exchange-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+#server:
+#  port: 8000
+
+# eureka property to connect eureka server
+
+# to set dynamic port
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    # to set dynamic eureka instance id
+    instance-id: ${spring.application.name}:${random.uuid}
+    prefer-ip-address: true
+
+# eureka.client.service-url.default-zone=http://localhost:8761/eureka
+
+
+
